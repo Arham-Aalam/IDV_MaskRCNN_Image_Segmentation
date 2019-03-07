@@ -32,10 +32,15 @@ class IDVDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only three class to add.
-        self.add_class("idv", 1, "dosa")
-        self.add_class("idv", 2, "idly")
-        self.add_class("idv", 3, "vada")
-
+        self.add_class("sp", 1, "h")
+        self.add_class("sp", 2, "n")
+        self.add_class("sp", 3, "t")
+        self.add_class("sp", 4, "c1")
+        self.add_class("sp", 5, "c2")
+        self.add_class("sp", 6, "c3")
+        self.add_class("sp", 7, "c4")
+        self.add_class("sp", 8, "c5")
+        self.add_class("sp", 9, "un")
 
         # Load annotations
         # VGG Image Annotator saves each image in the form:
@@ -53,12 +58,10 @@ class IDVDataset(utils.Dataset):
         # }
         # We mostly care about the x and y coordinates of each region
         annotations = json.load(open(os.path.join(dataset_dir, "via_region_data.json")))
-        annotations = list(annotations.values())  # don't need the dict keys
-
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
         annotations = [a for a in annotations if a['regions']]
-
+        classes_name = ['h', 'n', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
         # Add images
         for a in annotations:
             # Get the x, y coordinaets of points of the polygons that make up
@@ -69,14 +72,14 @@ class IDVDataset(utils.Dataset):
 
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
-            num_ids = [int(n['class']) for n in objects]
+            num_ids = [int(classes_name.index(n['object_name'])) + 1 for n in objects]
             # the image. This is only managable since the dataset is tiny.
             image_path = os.path.join(dataset_dir, a['filename'])
             image = skimage.io.imread(image_path)
             height, width = image.shape[:2]
 
             self.add_image(
-                "idv",
+                "sp",
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
@@ -92,7 +95,7 @@ class IDVDataset(utils.Dataset):
         # If not a balloon dataset image, delegate to parent class.
         #image_info = self.image_info[image_id]
         info = self.image_info[image_id]
-        if info["source"] != "idv":
+        if info["source"] != "sp":
             return super(self.__class__, self).load_mask(image_id)
         num_ids = info['num_ids']
         # Convert polygons to a bitmap mask of shape
@@ -114,7 +117,7 @@ class IDVDataset(utils.Dataset):
     def image_reference(self, image_id):
         """Return the path of the image."""
         info = self.image_info[image_id]
-        if info["source"] == "idv":
+        if info["source"] == "sp":
             return info["path"]
         else:
             super(self.__class__, self).image_reference(image_id)

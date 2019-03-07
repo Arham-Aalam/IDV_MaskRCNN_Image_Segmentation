@@ -127,7 +127,7 @@ class IDVDataset(utils.Dataset):
 
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
-            num_ids = [int(classes_name.index(n['object_name'])) for n in objects]
+            num_ids = [int(classes_name.index(n['object_name'])) + 1 for n in objects]
             # the image. This is only managable since the dataset is tiny.
             image_path = os.path.join(dataset_dir, a['filename'])
             image = skimage.io.imread(image_path)
