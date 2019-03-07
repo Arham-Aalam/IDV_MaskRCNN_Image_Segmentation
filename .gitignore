@@ -5,6 +5,8 @@ logs/
 results/
 temp/
 test/
+train/
+val/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
