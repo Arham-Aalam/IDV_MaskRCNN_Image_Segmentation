@@ -2076,7 +2076,9 @@ class MaskRCNN():
                 errno.ENOENT,
                 "Could not find model directory under {}".format(self.model_dir))
         # Pick last directory
-        dir_name = os.path.join(self.model_dir, dir_names[-1])
+        #dir_name = os.path.join(self.model_dir, dir_names[-1])
+        #replacing checkpoint directory
+        dir_name = os.path.join(self.model_dir, 'sp20190308T1250')
         # Find the last checkpoint
         checkpoints = next(os.walk(dir_name))[2]
         checkpoints = filter(lambda f: f.startswith("mask_rcnn"), checkpoints)
