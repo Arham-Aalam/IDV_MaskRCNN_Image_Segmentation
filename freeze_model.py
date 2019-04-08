@@ -47,7 +47,7 @@ def freeze_model(model, name):
     frozen_graph = freeze_session(
         sess,
         output_names=[out.op.name for out in model.outputs][:4])
-    directory = '.\\'
+    directory = './'
     tf.train.write_graph(frozen_graph, directory, name + '.pb', as_text=False)
 
 class SPConfig(Config):
