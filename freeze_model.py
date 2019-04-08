@@ -77,7 +77,7 @@ class InferenceConfig(config.__class__):
 config = InferenceConfig()
 MODEL_DIR = 'logs'
 H5_WEIGHT_PATH = 'logs/idv1703/mask_rcnn_sp_0020_17_03.h5'
-FROZEN_NAME = 'frozen_17_03_graph.pb'
+FROZEN_NAME = 'frozen_17_03_graph'
 model = modellib.MaskRCNN(
     mode="inference",
     config=config,
