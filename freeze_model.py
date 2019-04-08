@@ -75,8 +75,8 @@ class InferenceConfig(config.__class__):
     IMAGES_PER_GPU = 1
 
 config = InferenceConfig()
-MODEL_DIR = 'log'
-H5_WEIGHT_PATH = 'logs\idv1703\mask_rcnn_sp_0020_17_03.h5'
+MODEL_DIR = 'logs'
+H5_WEIGHT_PATH = 'logs/idv1703/mask_rcnn_sp_0020_17_03.h5'
 FROZEN_NAME = 'frozen_17_03_graph.pb'
 model = modellib.MaskRCNN(
     mode="inference",
