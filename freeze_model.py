@@ -8,7 +8,7 @@ K.set_session(sess)
 from mrcnn import model as modellib
 from mrcnn.config import Config
 # my config subclass
-from network_configs import ExampleConfig
+#from network_configs import ExampleConfig
 
 
 def freeze_session(session, keep_var_names=None, output_names=None, clear_devices=True):
