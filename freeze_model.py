@@ -1,5 +1,6 @@
 import keras.backend as K
 import tensorflow as tf
+import os
 
 # I needed to add this
 sess = tf.Session()
@@ -8,7 +9,7 @@ K.set_session(sess)
 from mrcnn import model as modellib
 from mrcnn.config import Config
 # my config subclass
-from network_configs import ExampleConfig
+#from network_configs import ExampleConfig
 
 
 def freeze_session(session, keep_var_names=None, output_names=None, clear_devices=True):
@@ -47,8 +48,9 @@ def freeze_model(model, name):
     frozen_graph = freeze_session(
         sess,
         output_names=[out.op.name for out in model.outputs][:4])
-    directory = '.\\'
+    directory = 'logs'
     tf.train.write_graph(frozen_graph, directory, name + '.pb', as_text=False)
+    print('conversion success!!')
 
 class SPConfig(Config):
     # Give the configuration a recognizable name
@@ -76,8 +78,9 @@ class InferenceConfig(config.__class__):
 
 config = InferenceConfig()
 MODEL_DIR = 'log'
-H5_WEIGHT_PATH = 'logs\idv1703\mask_rcnn_sp_0020_17_03.h5'
-FROZEN_NAME = 'frozen_17_03_graph.pb
+#H5_WEIGHT_PATH = 'logs\idv1703\mask_rcnn_sp_0020_17_03.h5'
+H5_WEIGHT_PATH = os.path.join('logs', 'idv1703', 'mask_rcnn_sp_0020_17_03.h5')
+FROZEN_NAME = 'frozen_17_03_graph'
 model = modellib.MaskRCNN(
     mode="inference",
     config=config,
