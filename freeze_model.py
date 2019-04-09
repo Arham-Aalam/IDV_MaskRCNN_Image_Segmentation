@@ -48,7 +48,11 @@ def freeze_model(model, name):
     frozen_graph = freeze_session(
         sess,
         output_names=[out.op.name for out in model.outputs][:4])
+<<<<<<< HEAD
     directory = 'logs'
+=======
+    directory = './'
+>>>>>>> 5c6bb3b145a722bc5836676c4dddefac8bcd9adc
     tf.train.write_graph(frozen_graph, directory, name + '.pb', as_text=False)
     print('conversion success!!')
 
@@ -77,9 +81,14 @@ class InferenceConfig(config.__class__):
     IMAGES_PER_GPU = 1
 
 config = InferenceConfig()
+<<<<<<< HEAD
 MODEL_DIR = 'log'
 #H5_WEIGHT_PATH = 'logs\idv1703\mask_rcnn_sp_0020_17_03.h5'
 H5_WEIGHT_PATH = os.path.join('logs', 'idv1703', 'mask_rcnn_sp_0020_17_03.h5')
+=======
+MODEL_DIR = 'logs'
+H5_WEIGHT_PATH = 'logs/idv1703/mask_rcnn_sp_0020_17_03.h5'
+>>>>>>> 5c6bb3b145a722bc5836676c4dddefac8bcd9adc
 FROZEN_NAME = 'frozen_17_03_graph'
 model = modellib.MaskRCNN(
     mode="inference",
