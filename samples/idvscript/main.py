@@ -59,7 +59,7 @@ class IDVConfig(Config):
     IMAGES_PER_GPU = 1
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 7  # Background + balloon
+    NUM_CLASSES = 1 + 8  # Background + balloon
 
     # Number of training steps per epoch
     STEPS_PER_EPOCH = 50
@@ -91,13 +91,14 @@ class IDVDataset(utils.Dataset):
         self.add_class("sp", 9, "c5")
         self.add_class("sp", 10, "un")
         '''
-        self.add_class("sp", 1, "s")
-        self.add_class("sp", 2, "c1")
-        self.add_class("sp", 3, "c2")
-        self.add_class("sp", 4, "c3")
-        self.add_class("sp", 5, "c4")
-        self.add_class("sp", 6, "c5")
-        self.add_class("sp", 7, "un")
+        self.add_class("sp", 1, "h")
+        self.add_class("sp", 2, "t")
+        self.add_class("sp", 3, "c1")
+        self.add_class("sp", 4, "c2")
+        self.add_class("sp", 5, "c3")
+        self.add_class("sp", 6, "c4")
+        self.add_class("sp", 7, "c5")
+        self.add_class("sp", 8, "un")
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
@@ -124,8 +125,8 @@ class IDVDataset(utils.Dataset):
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
         annotations = [a for a in annotations if a['regions']]
-        #classes_name = ['s', 'h', 'n', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
-        classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        #classes_name = s['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
 
         # Add images
         for a in annotations:
