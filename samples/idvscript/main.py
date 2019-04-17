@@ -56,10 +56,10 @@ class IDVConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 1
+    IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 8  # Background + balloon
+    NUM_CLASSES = 1 + 7  # Background + balloon
 
     # Number of training steps per epoch
     STEPS_PER_EPOCH = 50
@@ -79,17 +79,14 @@ class IDVDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only three class to add.
-        '''
+        
         self.add_class("sp", 1, "s")
-        self.add_class("sp", 2, "h")
-        self.add_class("sp", 3, "n")
-        self.add_class("sp", 4, "t")
-        self.add_class("sp", 5, "c1")
-        self.add_class("sp", 6, "c2")
-        self.add_class("sp", 7, "c3")
-        self.add_class("sp", 8, "c4")
-        self.add_class("sp", 9, "c5")
-        self.add_class("sp", 10, "un")
+        self.add_class("sp", 2, "c1")
+        self.add_class("sp", 3, "c2")
+        self.add_class("sp", 4, "c3")
+        self.add_class("sp", 5, "c4")
+        self.add_class("sp", 6, "c5")
+        self.add_class("sp", 7, "un")
         '''
         self.add_class("sp", 1, "h")
         self.add_class("sp", 2, "t")
@@ -99,7 +96,7 @@ class IDVDataset(utils.Dataset):
         self.add_class("sp", 6, "c4")
         self.add_class("sp", 7, "c5")
         self.add_class("sp", 8, "un")
-
+        '''
         # Train or validation dataset?
         assert subset in ["train", "val"]
         dataset_dir = os.path.join(dataset_dir, subset)
@@ -125,8 +122,8 @@ class IDVDataset(utils.Dataset):
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
         annotations = [a for a in annotations if a['regions']]
-        classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
-        #classes_name = s['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        #classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
 
         # Add images
         for a in annotations:

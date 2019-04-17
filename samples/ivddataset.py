@@ -35,14 +35,13 @@ class IDVDataset(utils.Dataset):
         #self.add_class("sp", 1, "h")
         #self.add_class("sp", 2, "n")
         #self.add_class("sp", 3, "t")
-        self.add_class("sp", 1, "h")
-        self.add_class("sp", 2, "t")
-        self.add_class("sp", 3, "c1")
-        self.add_class("sp", 4, "c2")
-        self.add_class("sp", 5, "c3")
-        self.add_class("sp", 6, "c4")
-        self.add_class("sp", 7, "c5")
-        self.add_class("sp", 8, "un")
+        self.add_class("sp", 1, "s")
+        self.add_class("sp", 2, "c1")
+        self.add_class("sp", 3, "c2")
+        self.add_class("sp", 4, "c3")
+        self.add_class("sp", 5, "c4")
+        self.add_class("sp", 6, "c5")
+        self.add_class("sp", 7, "un")
         # Load annotations
         # VGG Image Annotator saves each image in the form:
         # { 'filename': '28503151_5b5b7ec140_b.jpg',
@@ -62,8 +61,8 @@ class IDVDataset(utils.Dataset):
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
         annotations = [a for a in annotations if a['regions']]
-        classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
-        #classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        #classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
         # Add images
         for a in annotations:
             # Get the x, y coordinaets of points of the polygons that make up
