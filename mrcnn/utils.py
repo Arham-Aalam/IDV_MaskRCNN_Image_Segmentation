@@ -20,7 +20,6 @@ import skimage.transform
 import urllib.request
 import shutil
 import warnings
-import cv2
 
 # URL from which to download the latest COCO trained weights
 COCO_MODEL_URL = "https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5"
@@ -372,13 +371,17 @@ class Dataset(object):
         if image.ndim != 3:
             image = skimage.color.gray2rgb(image)
         '''
-        if image.ndim == 3:
-            #image = skimage.color.rgb2gray(image)
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        if image.ndim != 1:
+            image = skimage.color.rgb2gray(image)
+        # Extending the size of the image to be (h,w,1)
+        image = image[..., np.newaxis]
+        return image
+        '''
         # If has an alpha channel, remove it for consistency
         if image.shape[-1] == 4:
             image = image[..., :3]
         return image
+        '''
 
     def load_mask(self, image_id):
         """Load instance masks for the given image.
