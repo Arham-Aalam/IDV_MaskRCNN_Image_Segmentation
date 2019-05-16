@@ -69,7 +69,7 @@ class IDVConfig(Config):
 
     # For gray Images 
     IMAGE_CHANNEL_COUNT = 1
-    MEAN_PIXEL = 127
+    MEAN_PIXEL = 1
 
 ############################################################
 #  Dataset

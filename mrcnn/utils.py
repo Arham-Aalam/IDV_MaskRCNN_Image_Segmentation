@@ -365,14 +365,16 @@ class Dataset(object):
         """Load the specified image and return a [H,W,3] Numpy array.
         """
         # Load image
-        image = skimage.io.imread(self.image_info[image_id]['path'])
+        #image = skimage.io.imread(self.image_info[image_id]['path'])
+        image = cv2.imread(self.image_info[image_id]['path'])
         '''
         # If grayscale. Convert to RGB for consistency.
         if image.ndim != 3:
             image = skimage.color.gray2rgb(image)
         '''
         if image.ndim != 1:
-            image = skimage.color.rgb2gray(image)
+            #image = skimage.color.rgb2gray(image)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # Extending the size of the image to be (h,w,1)
         image = image[..., np.newaxis]
         return image
