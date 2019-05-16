@@ -67,6 +67,10 @@ class IDVConfig(Config):
     # Skip detections with < 60% confidence
     DETECTION_MIN_CONFIDENCE = 0.6
 
+    # For gray Images 
+    IMAGE_CHANNEL_COUNT = 1
+    MEAN_PIXEL = 127
+
 ############################################################
 #  Dataset
 ############################################################
@@ -315,7 +319,7 @@ if __name__ == '__main__':
         # number of classes
         model.load_weights(weights_path, by_name=True, exclude=[
             "mrcnn_class_logits", "mrcnn_bbox_fc",
-            "mrcnn_bbox", "mrcnn_mask"])
+            "mrcnn_bbox", "mrcnn_mask", "conv1"])
     else:
         model.load_weights(weights_path, by_name=True)
 

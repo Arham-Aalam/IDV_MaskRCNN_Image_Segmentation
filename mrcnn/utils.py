@@ -366,9 +366,14 @@ class Dataset(object):
         """
         # Load image
         image = skimage.io.imread(self.image_info[image_id]['path'])
+        '''
         # If grayscale. Convert to RGB for consistency.
         if image.ndim != 3:
             image = skimage.color.gray2rgb(image)
+        '''
+        if image.ndim == 3:
+            #image = skimage.color.rgb2gray(image)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # If has an alpha channel, remove it for consistency
         if image.shape[-1] == 4:
             image = image[..., :3]
