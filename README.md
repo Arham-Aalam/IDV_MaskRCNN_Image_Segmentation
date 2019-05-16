@@ -1,18 +1,17 @@
-# IDV_MaskRCNN_Image_Segmentation
+# SPA_MaskRCNN_Image_Segmentation
 
-# IDV Segmentation Example
+# SPA Segmentation Example
 
 This is an example showing the use of Mask RCNN in a real application.
-We train the model to detect Idly Vada Dosa , and then we use the generated 
+We train the model to detect cells and human seman , and then we use the generated 
 masks to predict the new images.
 
-IDV - Idly_Dosa_Vada
 
 
 ## Installation
 From the [Releases page](https://github.com/matterport/Mask_RCNN/releases) page:
 1. Download `mask_rcnn_coco.h5`. Save it in the root directory of the repo (the `mask_rcnn` directory).
-2. Download IDV images and the by using the VGG Image anotation tool and polygon masks to be created. Put that in the path `mask_rcnn/datasets/idv/` for test and `mask_rcnn/samples/idvscript/` for train and val.
+2. prepare cells and semen images and the by using the VGG Image anotation tool and polygon masks to be created. Put that in the path `mask_rcnn/datasets/idv/` for test and `mask_rcnn/samples/idvscript/` for train and val.
 
 
 ## Run Jupyter notebooks
