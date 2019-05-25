@@ -68,8 +68,8 @@ class IDVConfig(Config):
     DETECTION_MIN_CONFIDENCE = 0.6
 
     # For gray Images 
-    IMAGE_CHANNEL_COUNT = 1
-    MEAN_PIXEL = 1
+    #IMAGE_CHANNEL_COUNT = 1
+    #MEAN_PIXEL = 1
 
 ############################################################
 #  Dataset
@@ -134,9 +134,12 @@ class IDVDataset(utils.Dataset):
             # Get the x, y coordinaets of points of the polygons that make up
             # the outline of each object instance. There are stores in the
             # shape_attributes (see json format above)
-            polygons = [r['shape_attributes'] for r in a['regions'].values()]
-            objects = [s['region_attributes'] for s in a['regions'].values()]
-
+            #polygons = [r['shape_attributes'] for r in a['regions'].values()]
+            #objects = [s['region_attributes'] for s in a['regions'].values()]
+            if type(a['regions']) is dict:
+                polygons = [r['shape_attributes'] for r in a['regions'].values()]
+            else:
+                polygons = [r['shape_attributes'] for r in a['regions']]
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
             num_ids = [int(classes_name.index(n['object_name'])) + 1 for n in objects]
@@ -232,8 +235,8 @@ def train(model):
                 epochs=10,
                 #augmentation=augmentation,
                 layers='4+')
-    print("Training network All")
     '''
+    print("Training network All")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=20,
@@ -320,7 +323,7 @@ if __name__ == '__main__':
         # number of classes
         model.load_weights(weights_path, by_name=True, exclude=[
             "mrcnn_class_logits", "mrcnn_bbox_fc",
-            "mrcnn_bbox", "mrcnn_mask", "conv1"])
+            "mrcnn_bbox", "mrcnn_mask"]) #also exclude "conv1" if gray scale needed
     else:
         model.load_weights(weights_path, by_name=True)
 
