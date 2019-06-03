@@ -141,10 +141,10 @@ class IDVDataset(utils.Dataset):
             else:
                 polygons = [r['shape_attributes'] for r in a['regions']]
             objects = [s['region_attributes'] for s in a['regions'].values()]
-            
+            #print('---------- ', objects)
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
-            num_ids = [int(classes_name.index(n['object_name'])) + 1 for n in objects]
+            num_ids = [int(classes_name.index(n['object_name'])) + 1 for n in objects if n['object_name'] != '']
             # the image. This is only managable since the dataset is tiny.
             image_path = os.path.join(dataset_dir, a['filename'])
             image = skimage.io.imread(image_path)
@@ -223,14 +223,13 @@ def train(model):
     # Since we're using a very small dataset, and starting from
     # COCO trained weights, we don't need to train too long. Also,
     # no need to train all layers, just the heads should do it.
-    
+    '''
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=5,
+                epochs=10,
                 #augmentation=augmentation,
                 layers='heads')
-    '''
     print("Training network layers")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
@@ -241,7 +240,7 @@ def train(model):
     print("Training network All")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=20,
+                epochs=40,
                 #augmentation=augmentation,
                 layers='all')
 
