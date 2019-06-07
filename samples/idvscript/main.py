@@ -59,10 +59,10 @@ class IDVConfig(Config):
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 7  # Background + balloon
+    NUM_CLASSES = 1 + 8  # Background + balloon
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 50
+    STEPS_PER_EPOCH = 200
 
     # Skip detections with < 60% confidence
     DETECTION_MIN_CONFIDENCE = 0.6
@@ -90,7 +90,8 @@ class IDVDataset(utils.Dataset):
         self.add_class("sp", 4, "c3")
         self.add_class("sp", 5, "c4")
         self.add_class("sp", 6, "c5")
-        self.add_class("sp", 7, "un")
+        self.add_class("sp", 7, "sh")
+        self.add_class("sp", 8, "un")
         '''
         self.add_class("sp", 1, "h")
         self.add_class("sp", 2, "t")
@@ -127,7 +128,7 @@ class IDVDataset(utils.Dataset):
         # annotations. Skip unannotated images.
         annotations = [a for a in annotations if a['regions']]
         #classes_name = ['h', 't', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
-        classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'un']
+        classes_name = ['s', 'c1', 'c2', 'c3', 'c4', 'c5', 'sh', 'un']
 
         # Add images
         for a in annotations:
@@ -209,15 +210,15 @@ def train(model):
     
     # Image augmentation
     # http://imgaug.readthedocs.io/en/latest/source/augmenters.html
-    #augmentation = iaa.SomeOf((0, 2), [
-    #    iaa.Fliplr(0.5),
-    #    iaa.Flipud(0.5),
-    #    iaa.OneOf([iaa.Affine(rotate=90),
-    #               iaa.Affine(rotate=180),
-    #               iaa.Affine(rotate=270)]),
-    #    iaa.Multiply((0.8, 1.5)),
-    #    iaa.GaussianBlur(sigma=(0.0, 5.0))
-    #])
+    augmentation = iaa.SomeOf((0, 2), [
+        iaa.Fliplr(0.5),
+        iaa.Flipud(0.5),
+        iaa.OneOf([iaa.Affine(rotate=90),
+                   iaa.Affine(rotate=180),
+                   iaa.Affine(rotate=270)]),
+        iaa.Multiply((0.8, 1.5)),
+        iaa.GaussianBlur(sigma=(0.0, 5.0))
+    ])
 
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
@@ -240,8 +241,8 @@ def train(model):
     print("Training network All")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=40,
-                #augmentation=augmentation,
+                epochs=50,
+                augmentation=augmentation,
                 layers='all')
 
 
