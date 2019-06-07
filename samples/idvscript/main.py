@@ -176,10 +176,12 @@ class IDVDataset(utils.Dataset):
         #info = self.image_info[image_id]
         mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
                         dtype=np.uint8)
+        print( '------------------', mask.shape, '-----------------------------------')
 
         for i, p in enumerate(info["polygons"]):
             # Get indexes of pixels inside the polygon and set them to 1
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
+            print(rr, cc, end=' ')
             mask[rr, cc, i] = 1
 
         # Return mask, and array of class IDs of each instance. Since we have
