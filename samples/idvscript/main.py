@@ -62,7 +62,7 @@ class IDVConfig(Config):
     NUM_CLASSES = 1 + 8  # Background + balloon
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 200
+    STEPS_PER_EPOCH = 100
 
     # Skip detections with < 60% confidence
     DETECTION_MIN_CONFIDENCE = 0.6
@@ -176,13 +176,18 @@ class IDVDataset(utils.Dataset):
         #info = self.image_info[image_id]
         mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
                         dtype=np.uint8)
-        print( '------------------', mask.shape, '-----------------------------------')
+        #print( '------------------', mask.shape, '-----------------------------------')
 
         for i, p in enumerate(info["polygons"]):
             # Get indexes of pixels inside the polygon and set them to 1
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
-            print(rr, cc, end=' ')
-            mask[rr, cc, i] = 1
+            rr = [num if num != 720 else 719 for num in rr]
+            cc = [num if num != 1280 else 1279 for num in cc]
+            try:
+                mask[rr, cc, i] = 1
+            except Exception as e:
+                print('error =================', e)
+                #print(rr, cc, end=' ')
 
         # Return mask, and array of class IDs of each instance. Since we have
         # one class ID only, we return an array of 1s
