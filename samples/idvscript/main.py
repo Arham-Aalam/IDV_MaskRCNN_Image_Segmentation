@@ -62,7 +62,7 @@ class IDVConfig(Config):
     NUM_CLASSES = 1 + 8  # Background + balloon
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100
+    STEPS_PER_EPOCH = 60
 
     # Skip detections with < 60% confidence
     DETECTION_MIN_CONFIDENCE = 0.6
@@ -188,7 +188,6 @@ class IDVDataset(utils.Dataset):
             except Exception as e:
                 print('error =================', e)
                 #print(rr, cc, end=' ')
-
         # Return mask, and array of class IDs of each instance. Since we have
         # one class ID only, we return an array of 1s
         num_ids = np.array(num_ids, dtype=np.int32)
@@ -223,8 +222,10 @@ def train(model):
         iaa.OneOf([iaa.Affine(rotate=90),
                    iaa.Affine(rotate=180),
                    iaa.Affine(rotate=270)]),
-        iaa.Multiply((0.8, 1.5)),
+        iaa.Multiply((0.8, 1.5))
+        ''',
         iaa.GaussianBlur(sigma=(0.0, 5.0))
+        '''
     ])
 
     # *** This training schedule is an example. Update to your needs ***
@@ -248,7 +249,7 @@ def train(model):
     print("Training network All")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=50,
+                epochs=30,
                 augmentation=augmentation,
                 layers='all')
 
