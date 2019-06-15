@@ -223,9 +223,6 @@ def train(model):
                    iaa.Affine(rotate=180),
                    iaa.Affine(rotate=270)]),
         iaa.Multiply((0.8, 1.5))
-        ''',
-        iaa.GaussianBlur(sigma=(0.0, 5.0))
-        '''
     ])
 
     # *** This training schedule is an example. Update to your needs ***
@@ -233,6 +230,7 @@ def train(model):
     # COCO trained weights, we don't need to train too long. Also,
     # no need to train all layers, just the heads should do it.
     '''
+    iaa.GaussianBlur(sigma=(0.0, 5.0))
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
