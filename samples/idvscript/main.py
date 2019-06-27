@@ -237,11 +237,12 @@ def train(model):
                 epochs=10,
                 #augmentation=augmentation,
                 layers='heads')
+    '''
     print("Training network layers")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=10,
-                #augmentation=augmentation,
+                epochs=50,
+                augmentation=augmentation,
                 layers='4+')
     '''
     print("Training network All")
@@ -250,7 +251,7 @@ def train(model):
                 epochs=30,
                 augmentation=augmentation,
                 layers='all')
-
+    '''
 
 
 ############################################################
