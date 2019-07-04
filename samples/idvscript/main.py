@@ -216,7 +216,17 @@ def train(model):
     
     # Image augmentation
     # http://imgaug.readthedocs.io/en/latest/source/augmenters.html
+    '''
     augmentation = iaa.SomeOf((0, 2), [
+        iaa.Fliplr(0.5),
+        iaa.Flipud(0.5),
+        iaa.OneOf([iaa.Affine(rotate=90),
+                   iaa.Affine(rotate=180),
+                   iaa.Affine(rotate=270)]),
+        iaa.Multiply((0.8, 1.5))
+    ])
+    '''
+    augmentation = iaa.OneOf([
         iaa.Fliplr(0.5),
         iaa.Flipud(0.5),
         iaa.OneOf([iaa.Affine(rotate=90),
