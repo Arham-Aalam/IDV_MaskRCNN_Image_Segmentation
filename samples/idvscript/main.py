@@ -234,6 +234,9 @@ def train(model, data_aug):
     '''
     augmentation = None
     if data_aug:
+        print('################################################################')
+        print('############# Using Data Augmentation ##########################')
+        print('################################################################')
         augmentation = iaa.OneOf([
             iaa.Fliplr(0.5),
             iaa.Flipud(0.5),
