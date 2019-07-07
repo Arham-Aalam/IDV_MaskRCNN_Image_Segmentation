@@ -70,6 +70,11 @@ class IDVConfig(Config):
     # For gray Images 
     #IMAGE_CHANNEL_COUNT = 1
     #MEAN_PIXEL = 1
+    DETECTION_NMS_THRESHOLD = 0.4
+
+    #Image dimentions
+    IMAGE_MIN_DIM = 352
+    IMAGE_MAX_DIM = 1280
 
 ############################################################
 #  Dataset
@@ -150,6 +155,7 @@ class IDVDataset(utils.Dataset):
             image_path = os.path.join(dataset_dir, a['filename'])
             image = skimage.io.imread(image_path)
             height, width = image.shape[:2]
+            del image
 
             self.add_image(
                 "sp",
