@@ -73,8 +73,8 @@ class IDVConfig(Config):
     DETECTION_NMS_THRESHOLD = 0.4
 
     #Image dimentions
-    IMAGE_MIN_DIM = 352
-    IMAGE_MAX_DIM = 1280
+    #IMAGE_MIN_DIM = 352
+    #IMAGE_MAX_DIM = 1280
 
 ############################################################
 #  Dataset
@@ -208,7 +208,7 @@ class IDVDataset(utils.Dataset):
             super(self.__class__, self).image_reference(image_id)
 
 
-def train(model):
+def train(model, data_aug):
     """Train the model."""
     # Training dataset.
     dataset_train = IDVDataset()
@@ -232,14 +232,16 @@ def train(model):
         iaa.Multiply((0.8, 1.5))
     ])
     '''
-    augmentation = iaa.OneOf([
-        iaa.Fliplr(0.5),
-        iaa.Flipud(0.5),
-        iaa.OneOf([iaa.Affine(rotate=90),
-                   iaa.Affine(rotate=180),
-                   iaa.Affine(rotate=270)]),
-        iaa.Multiply((0.8, 1.5))
-    ])
+    augmentation = None
+    if data_aug:
+        augmentation = iaa.OneOf([
+            iaa.Fliplr(0.5),
+            iaa.Flipud(0.5),
+            iaa.OneOf([iaa.Affine(rotate=90),
+                    iaa.Affine(rotate=180),
+                    iaa.Affine(rotate=270)]),
+            iaa.Multiply((0.8, 1.5))
+        ])
 
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
@@ -259,7 +261,7 @@ def train(model):
                 learning_rate=config.LEARNING_RATE,
                 epochs=50,
                 augmentation=augmentation,
-                layers='4+')
+                layers='5+')
     '''
     print("Training network All")
     model.train(dataset_train, dataset_val,
@@ -293,6 +295,10 @@ if __name__ == '__main__':
                         default=DEFAULT_LOGS_DIR,
                         metavar="/path/to/logs/",
                         help='Logs and checkpoints directory (default=logs/)')
+    parser.add_argument('--data_aug', required=False,
+                        default=False
+                        metavar="False",
+                        help="True or False for data augmentation option")
     args = parser.parse_args()
 
     # Validate arguments
@@ -354,7 +360,7 @@ if __name__ == '__main__':
 
     # Train or evaluate
     if args.command == "train":
-        train(model)
+        train(model, args.data_aug)
     elif args.command == "splash":
         detect_and_color_splash(model, image_path=args.image,
                                 video_path=args.video)
