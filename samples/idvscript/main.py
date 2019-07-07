@@ -250,12 +250,12 @@ def train(model, data_aug):
     # Since we're using a very small dataset, and starting from
     # COCO trained weights, we don't need to train too long. Also,
     # no need to train all layers, just the heads should do it.
-    '''
-    iaa.GaussianBlur(sigma=(0.0, 5.0))
+    
+    #iaa.GaussianBlur(sigma=(0.0, 5.0))
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=10,
+                epochs=50,
                 #augmentation=augmentation,
                 layers='heads')
     '''
@@ -265,6 +265,7 @@ def train(model, data_aug):
                 epochs=50,
                 augmentation=augmentation,
                 layers='5+')
+    '''
     '''
     print("Training network All")
     model.train(dataset_train, dataset_val,
