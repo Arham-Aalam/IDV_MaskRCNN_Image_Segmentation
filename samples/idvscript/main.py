@@ -296,7 +296,7 @@ if __name__ == '__main__':
                         metavar="/path/to/logs/",
                         help='Logs and checkpoints directory (default=logs/)')
     parser.add_argument('--data_aug', required=False,
-                        default=False
+                        default=False,
                         help="True or False for data augmentation option")
     args = parser.parse_args()
 
